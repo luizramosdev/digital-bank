@@ -3,15 +3,13 @@
 namespace Database\Seeders;
 
 use Carbon\Carbon;
-use App\Models\Bank;
-use App\Models\Agency;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class BankSeeder extends Seeder
+class AccountSeeder extends Seeder
 {
-    public $set_schema_table = "banks";
+    public $set_schema_table = "accounts";
 
     public function run()
     {
@@ -19,7 +17,11 @@ class BankSeeder extends Seeder
 
         DB::table($this->set_schema_table)->insert([
             "uuid" => Str::uuid(10),
-            "name" => "Creditech",
+            "agency_id" => 1,
+            "user_id" => 1,
+            "account_number" => rand(9, 99999),
+            "balance" => 1000,
+            "status" => "ACTIVE",
             "created_at" => $now,
             "updated_at" => $now
         ]);

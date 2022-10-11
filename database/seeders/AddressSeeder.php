@@ -3,15 +3,13 @@
 namespace Database\Seeders;
 
 use Carbon\Carbon;
-use App\Models\Bank;
-use App\Models\Agency;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class BankSeeder extends Seeder
+class AddressSeeder extends Seeder
 {
-    public $set_schema_table = "banks";
+    public $set_schema_table = 'addresses';
 
     public function run()
     {
@@ -19,7 +17,13 @@ class BankSeeder extends Seeder
 
         DB::table($this->set_schema_table)->insert([
             "uuid" => Str::uuid(10),
-            "name" => "Creditech",
+            "zip_code" => "50960420",
+            "street" => "Rua Eduardo Prado",
+            "number" => "732",
+            "complement" => "Casa",
+            "neighborhood" => "Várzea",
+            "city" => "Recife",
+            "state" => "PE",
             "created_at" => $now,
             "updated_at" => $now
         ]);
