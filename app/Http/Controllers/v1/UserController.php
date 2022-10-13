@@ -39,7 +39,5 @@ class UserController extends Controller
                 'message' => 'account creation error'
             ], 400);
         }
-
-
     }
 }
