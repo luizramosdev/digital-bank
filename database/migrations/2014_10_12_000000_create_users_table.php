@@ -15,10 +15,10 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
+            $table->uuid('uuid')->nullable();
             $table->string('first_name');
             $table->string('last_name');
-            $table->date('date_of_birth');
+            $table->date('date_of_birth')->nullable();
             $table->enum('type_document', ['CPF', 'CNPJ']);
             $table->string('document')->unique();
             $table->string('identity_document')->unique();
@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('mobile')->nullable();
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->foreignId('address_id')->constrained('addresses')->nullable();
             $table->timestamps();
         });

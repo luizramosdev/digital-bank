@@ -21,14 +21,12 @@ class User extends Authenticatable
         'document',
         'identity_document',
         'mothers_name',
+        'genre',
         'phone',
         'mobile',
         'email',
-        'address_id'
-    ];
-
-    protected $hidden = [
         'password',
+        'address_id'
     ];
 
     // relations

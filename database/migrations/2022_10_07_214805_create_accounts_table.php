@@ -19,7 +19,7 @@ class CreateAccountsTable extends Migration
             $table->foreignId('agency_id')->constrained('agencies')->nullable();
             $table->foreignId('user_id')->contrained('users')->nullable();
             $table->string('account_number', 5);
-            $table->decimal('balance', 8,2);
+            $table->decimal('balance', 8,2)->default(0.0);
             $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
             $table->timestamps();
         });

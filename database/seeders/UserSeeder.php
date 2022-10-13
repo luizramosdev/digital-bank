@@ -27,6 +27,7 @@ class UserSeeder extends Seeder
             "document" => "21309803412",
             "identity_document" => "289190873",
             "mothers_name" => "Maria da Silva",
+            "genre" => "MALE",
             "phone" => "1932164996",
             "mobile" => "19981973462",
             "email" => 'joao@teste.com',
