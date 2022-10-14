@@ -40,4 +40,21 @@ class UserController extends Controller
             ], 400);
         }
     }
+
+    public function show()
+    {
+        try {
+            $user = $this->userService->getUserByAuth();
+
+            if(!$user) throw new \Exception('user not found', 404);
+
+            return $user;
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ], $e->getCode());
+        }
+
+    }
 }

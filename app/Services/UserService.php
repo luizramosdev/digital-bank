@@ -46,4 +46,11 @@ class UserService
 
         return $user;
     }
+
+    public function getUserByAuth()
+    {
+        $user = auth()->user();
+
+        return $user;
+    }
 }

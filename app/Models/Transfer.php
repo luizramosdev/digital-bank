@@ -12,7 +12,8 @@ class Transfer extends Model
         'from_account',
         'to_account',
         'amount',
-        'transfer_type'
+        'transfer_type',
+        'fee'
     ];
 
     // relations

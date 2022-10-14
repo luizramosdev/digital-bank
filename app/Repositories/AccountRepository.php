@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repositories\IAccountRepository;
 use App\Models\Account;
 
 class AccountRepository
@@ -17,6 +16,13 @@ class AccountRepository
     public function store(array $requestData)
     {
         $account = $this->account->create($requestData);
+
+        return $account;
+    }
+
+    public function getByAccountNumber(string $accountNumber)
+    {
+        $account = $this->account->where('account_number', $accountNumber)->first();
 
         return $account;
     }

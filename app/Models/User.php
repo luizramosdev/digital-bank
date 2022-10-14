@@ -30,6 +30,12 @@ class User extends Authenticatable
         'address_id'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'password'
+    ];
+
     // relations
     public function address() {
         return $this->hasOne(Address::class, 'address_id', 'id');

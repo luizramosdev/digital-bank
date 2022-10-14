@@ -16,6 +16,11 @@ class Account extends Model
         'status'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     // relations
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
