@@ -16,9 +16,9 @@ class CreatePixTable extends Migration
         Schema::create('pix', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->foreignId('account_id')->constrained('accounts')->nullable();
+            $table->foreignId('account_id')->constrained('accounts');
             $table->enum('type_key', ['CPF', 'CNPJ', 'EMAIL', 'MOBILE']);
-            $table->string('pix_key');
+            $table->string('pix_key')->unique();
             $table->timestamps();
         });
     }

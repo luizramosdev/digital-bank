@@ -29,5 +29,18 @@ class UserRepository
         return $user;
     }
 
+    public function getUserById(int $id)
+    {
+        $user = $this->user->where('id', $id)->first();
+
+        return $user;
+    }
+
+    public function findUserByDocument(string $document)
+    {
+        $user = $this->user->where('document', $document)->first();
+
+        return $user;
+    }
 
 }

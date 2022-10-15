@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Repositories\AccountRepository;
-use App\Interfaces\Services\IAccountService;
 use App\Models\Account;
 
 class AccountService
@@ -38,9 +37,9 @@ class AccountService
         return $account;
     }
 
-    public function checkActiveAccounts (Account $from_account, Account $to_account)
+    public function checkActiveAccounts (Account $account)
     {
-        if(!$from_account->status == 'ACTIVE' && !$to_account->status == 'ACTIVE')
+        if(!$account->status == 'ACTIVE')
         {
             return false;
         }

@@ -53,4 +53,18 @@ class UserService
 
         return $user;
     }
+
+    public function getUserById(int $id)
+    {
+        $user = $this->userRepository->getUserById($id);
+
+        return $user;
+    }
+
+    public function findUserByDocument(string $document)
+    {
+        $user = $this->userRepository->findUserByDocument($document);
+
+        return $user;
+    }
 }

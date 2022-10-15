@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pix extends Model
 {
+    protected $table = "pix";
+
     protected $fillable = [
         'uuid',
         'account_id',

@@ -33,9 +33,11 @@ class TransferService
 
         if(!$to_account) throw new \Exception('account not found', 404);
 
-        $activeAccounts = $this->accountService->checkActiveAccounts($from_account, $to_account);
+        $activeFromAccount = $this->accountService->checkActiveAccounts($from_account);
+        if(!$activeFromAccount) throw new \Exception('from account must be active', 404);
 
-        if(!$activeAccounts) throw new \Exception('accounts must be active', 404);
+        $activeToAccount = $this->accountService->checkActiveAccounts($to_account);
+        if(!$activeToAccount) throw new \Exception('to account must be active', 404);
 
         switch($requestData['type_transfer'])
         {
