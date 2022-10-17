@@ -13,9 +13,9 @@ class TransferRepository
         $this->transfer = $transfer;
     }
 
-    public function store(array $requestData)
+    public function store(array $data)
     {
-        $transfer = $this->transfer->create($requestData);
+        $transfer = $this->transfer->create($data);
 
         return $transfer;
     }

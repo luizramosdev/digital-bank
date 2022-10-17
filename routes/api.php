@@ -14,9 +14,13 @@ Route::group(['prefix' => 'v1'], function() {
     });
 
     Route::middleware('auth:api')->group(function() {
-        Route::get('/user', [UserController::class, 'show']);
-        Route::get('/account', [AccountController::class, 'show']);
-        Route::post('/transfer', [TransferController::class, 'transfer']);
+        Route::get('/user/auth', [UserController::class, 'userAuth']);
+        Route::get('/user/{user_id}', [UserController::class, 'show']);
+        Route::get('/account/auth', [AccountController::class, 'accountAuth']);
+        Route::get('/account/{account_id}', [AccountController::class, 'show']);
+        Route::post('/transfer/ted', [TransferController::class, 'transferTed']);
         Route::post('/pix', [PixController::class, 'store']);
+        Route::get('/pix/{key}', [PixController::class, 'show']);
+        Route::post('/transfer/pix', [TransferController::class, 'transferPix']);
     });
 });

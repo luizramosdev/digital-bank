@@ -23,9 +23,14 @@ class AccountService
 
     public function getAccountByAuth()
     {
-        $user = auth()->user();
+        $account = auth()->user()->account;
 
-        $account = $user->account;
+        return $account;
+    }
+
+    public function findAccountById(int $account_id)
+    {
+        $account = $this->accountRepository->findAccountById($account_id);
 
         return $account;
     }

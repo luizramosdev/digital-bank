@@ -29,7 +29,7 @@ class UserRepository
         return $user;
     }
 
-    public function getUserById(int $id)
+    public function findUserById(int $id)
     {
         $user = $this->user->where('id', $id)->first();
 

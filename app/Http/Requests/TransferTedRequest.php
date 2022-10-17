@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TransferRequest extends FormRequest
+class TransferTedRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,8 @@ class TransferRequest extends FormRequest
     {
         return [
             "to_account" => "required",
-            "amount" => "required",
-            "type_transfer" => "required|in:TED,PIX"
+            "amount" => "required|numeric",
+            "type_transfer" => "required|in:TED"
         ];
     }
 
@@ -35,6 +35,7 @@ class TransferRequest extends FormRequest
         return [
             "to_account.required" => "validation.to_account.required",
             "amount.required" => "validation.amount.required",
+            "amount.numeric" => "validation.amount.numeric",
             "type_transfer.required" => "validation.type_transfer.required",
             "type_transfer.in" => "validation.type_transfer.in"
         ];

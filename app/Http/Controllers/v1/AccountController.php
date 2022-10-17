@@ -15,7 +15,23 @@ class AccountController extends Controller
         $this->accountService = $accountService;
     }
 
-    public function show()
+    public function show($account_id)
+    {
+        try {
+            $account = $this->accountService->findAccountById($account_id);
+
+            if(!$account) throw new \Exception('account not found', 404);
+
+            return $account;
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ], $e->getCode());
+        }
+    }
+
+    public function accountAuth()
     {
         try {
             $account = $this->accountService->getAccountByAuth();
@@ -29,6 +45,5 @@ class AccountController extends Controller
                 'message' => $e->getMessage()
             ], $e->getCode());
         }
-
     }
 }

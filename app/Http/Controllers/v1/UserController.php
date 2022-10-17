@@ -41,7 +41,23 @@ class UserController extends Controller
         }
     }
 
-    public function show()
+    public function show($user_id)
+    {
+        try {
+            $user = $this->userService->findUserById($user_id);
+
+            if(!$user) throw new \Exception('user not found', 404);
+
+            return $user;
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ], $e->getCode());
+        }
+    }
+
+    public function userAuth()
     {
         try {
             $user = $this->userService->getUserByAuth();
@@ -55,6 +71,5 @@ class UserController extends Controller
                 'message' => $e->getMessage()
             ], $e->getCode());
         }
-
     }
 }

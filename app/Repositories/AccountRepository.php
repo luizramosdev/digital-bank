@@ -20,6 +20,13 @@ class AccountRepository
         return $account;
     }
 
+    public function findAccountById(int $account_id)
+    {
+        $account = $this->account->where('id', $account_id)->first();
+
+        return $account;
+    }
+
     public function getByAccountNumber(string $accountNumber)
     {
         $account = $this->account->where('account_number', $accountNumber)->first();

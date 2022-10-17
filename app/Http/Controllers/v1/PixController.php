@@ -29,6 +29,21 @@ class PixController extends Controller
                 'message' => $e->getMessage()
             ], $e->getCode());
         }
+    }
 
+    public function show($key)
+    {
+        try {
+            $pix = $this->pixService->findByPixKey($key);
+
+            if(!$pix) throw new \Exception('pix not found', 404);
+
+            return $pix;
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ], $e->getCode());
+        }
     }
 }
