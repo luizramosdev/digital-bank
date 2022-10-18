@@ -13,7 +13,8 @@ class Billet extends Model
         'bar_code',
         'amount',
         'due_date',
-        'payment_status'
+        'payment_status',
+        'payer_document'
     ];
 
     // relations
