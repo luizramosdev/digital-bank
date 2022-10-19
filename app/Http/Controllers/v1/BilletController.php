@@ -26,7 +26,7 @@ class BilletController extends Controller
             return response()->json([
                 'code' => $e->getCode(),
                 'message' => $e->getMessage()
-            ], $e->getMessage());
+            ], $e->getCode());
         }
     }
 }

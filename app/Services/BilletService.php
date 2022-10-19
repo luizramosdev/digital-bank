@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Services\AccountService;
 use App\Repositories\BilletRepository;
+use DateTime;
+use DateTimeZone;
 
 class BilletService
 {
@@ -28,6 +31,9 @@ class BilletService
 
         $payer = $this->userService->findUserByDocument($requestData['payer_document']);
         if(!$payer) throw new \Exception('payer not found', 404);
+
+        $now = Carbon::now();
+        if(strtotime($requestData['due_date']) < strtotime($now)) throw new \Exception('due date entered has passed', 404);
 
         $data = [
             'uuid' => Str::uuid(10),
