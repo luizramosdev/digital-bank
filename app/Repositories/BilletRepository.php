@@ -19,4 +19,25 @@ class BilletRepository
 
         return $billet;
     }
+
+    public function findBilletByAccountId(int $account_id)
+    {
+        $billets = $this->billet->where('account_id', $account_id)->get();
+
+        return $billets;
+    }
+
+    public function findBilletByDocument(string $document)
+    {
+        $billets = $this->billet->where('payer_document', $document)->get();
+
+        return $billets;
+    }
+
+    public function findBilletByBarCode(string $bar_code)
+    {
+        $billet = $this->billet->where('bar_code', $bar_code)->first();
+
+        return $billet;
+    }
 }

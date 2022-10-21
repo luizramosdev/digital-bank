@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Services\AccountService;
 use App\Repositories\BilletRepository;
@@ -32,8 +31,14 @@ class BilletService
         $payer = $this->userService->findUserByDocument($requestData['payer_document']);
         if(!$payer) throw new \Exception('payer not found', 404);
 
-        $now = Carbon::now();
-        if(strtotime($requestData['due_date']) < strtotime($now)) throw new \Exception('due date entered has passed', 404);
+        $timeZone = new DateTimeZone('America/Sao_Paulo');
+        $now = date('Y-m-d');
+        $due_date = $requestData['due_date'];
+
+        $now = DateTime::createFromFormat('Y-m-d', $now, $timeZone);
+        $due_date = DateTime::createFromFormat('Y-m-d', $due_date, $timeZone);
+
+        if($due_date < $now) throw new \Exception('due date entered has passed', 404);
 
         $data = [
             'uuid' => Str::uuid(10),
@@ -47,5 +52,36 @@ class BilletService
         $billet = $this->billetRepository->store($data);
 
         return $billet;
+    }
+
+    public function findBilletByBarCode(string $bar_code)
+    {
+        $billet = $this->billetRepository->findBilletByBarCode($bar_code);
+
+        if(!$billet) throw new \Exception('billet not found', 404);
+
+        return $billet;
+    }
+
+    public function myGeneratedBillets()
+    {
+        $account = $this->accountService->getAccountByAuth();
+
+        $billets = $this->billetRepository->findBilletByAccountId($account->id);
+
+        if($billets->count() === 0) throw new \Exception('dont have a billet generated', 404);
+
+        return $billets;
+    }
+
+    public function myBilletsToPay()
+    {
+        $user = $this->userService->getUserByAuth();
+
+        $billets = $this->billetRepository->findBilletByDocument($user->document);
+
+        if($billets->count() === 0) throw new \Exception('dont have a billet to pay', 404);
+
+        return $billets;
     }
 }

@@ -38,6 +38,9 @@ Route::group(['prefix' => 'v1'], function() {
 
         Route::group(['prefix' => 'billet'], function () {
             Route::post('/', [BilletController::class, 'store']);
+            Route::get('/{bar_code}', [BilletController::class,'show']);
+            Route::get('/my-billets', [BilletController::class, 'myGeneratedBillets']);
+            Route::get('/my-billets-pay', [BilletController::class, 'myBilletsToPay']);
         });
     });
 });
