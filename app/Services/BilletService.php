@@ -26,8 +26,7 @@ class BilletService
     {
         $from_account = $this->accountService->getAccountByAuth();
 
-        $activeFromAccount = $this->accountService->checkActiveAccounts($from_account);
-        if(!$activeFromAccount) throw new \Exception('your account must be active');
+        $this->accountService->checkActiveAccounts($from_account);
 
         $payer = $this->userService->findUserByDocument($requestData['payer_document']);
         if(!$payer) throw new \Exception('payer not found', 404);
@@ -35,11 +34,15 @@ class BilletService
         $timeZone = new DateTimeZone('America/Sao_Paulo');
         $now = date('Y-m-d');
         $due_date = $requestData['due_date'];
+        $max_due_date = date('Y-m-d', strtotime($now. ' + 90 days'));
 
         $now = DateTime::createFromFormat('Y-m-d', $now, $timeZone);
         $due_date = DateTime::createFromFormat('Y-m-d', $due_date, $timeZone);
+        $max_due_date = DateTime::createFromFormat('Y-m-d', $max_due_date, $timeZone);
 
         if($due_date < $now) throw new \Exception('due date entered has passed', 404);
+
+        if($due_date > $max_due_date) throw new \Exception('the maximum expiration date is up to 90 days', 404);
 
         $data = [
             'uuid' => Str::uuid(10),
