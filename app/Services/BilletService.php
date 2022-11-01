@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Billet;
 use Illuminate\Support\Str;
 use App\Services\AccountService;
 use App\Repositories\BilletRepository;
@@ -84,4 +85,61 @@ class BilletService
 
         return $billets;
     }
+
+    public function payment(array $requestData)
+    {
+        //busca o boleto pelo codigo de barras
+        $billet = $this->billetRepository->findBilletByBarCode($requestData['bar_code']);
+
+        if(!$billet) throw new \Exception('billet not found', 404);
+
+        // verifica se a data de pagamento é maior que a data de vencimento
+        $timeZone = new DateTimeZone('America/Sao_Paulo');
+        $now = date('Y-m-d');
+        $due_date = $billet->due_date;
+
+        $now = DateTime::createFromFormat('Y-m-d', $now, $timeZone);
+        $due_date = DateTime::createFromFormat('Y-m-d', $due_date, $timeZone);
+
+        if($now > $due_date) throw new \Exception('billet is expired', 404);
+
+        // verifica se o status do boleto é diferente de em aberto
+        if($billet->payment_status !== 'OPENED') throw new \Exception('the billet status must be open', 404);
+
+        // pega a conta do usuário atraves da autenticacao
+        $from_account = $this->accountService->getAccountByAuth();
+
+        //verifica se a conta logada está ativa ou inativa
+        $this->accountService->checkActiveAccounts($from_account);
+
+        //busca a conta recebedora
+        $to_account = $this->accountService->findAccountById($billet->account_id);
+        if(!$to_account) throw new \Exception('account not found', 404);
+
+        //verifica se a conta recebedora está ativa ou inativa
+        $this->accountService->checkActiveAccounts($to_account);
+
+        //verifica se a conta pagadora possui saldo suficiente
+        $this->accountService->checkBalance($from_account->balance, $billet->amount);
+
+        // retira o valor do boleto da conta do pagador
+        $this->accountService->balanceExit($from_account, $billet->amount);
+
+        // adiciona o valor do boleto na conta do recebedor
+        $this->accountService->addBalance($to_account, $billet->amount);
+
+        //altera o status do boleto
+        $status = 'PAID';
+        $billet = $this->changeStatusBillet($billet, $status);
+
+        return $billet;
+    }
+
+    public function changeStatusBillet($billet, string $status)
+    {
+        $billet = $this->billetRepository->changeStatusBillet($billet, $status);
+
+        return $billet;
+    }
+
 }

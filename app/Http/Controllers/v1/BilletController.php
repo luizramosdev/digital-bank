@@ -20,7 +20,10 @@ class BilletController extends Controller
         try {
             $billet = $this->billetService->create($request->all());
 
-            return $billet;
+            return response()->json([
+                'code' => 200,
+                'data' => $billet
+            ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
@@ -35,7 +38,10 @@ class BilletController extends Controller
         try {
             $billet = $this->billetService->findBilletByBarCode($bar_code);
 
-            return $billet;
+            return response()->json([
+                'code' => 200,
+                'data' => $billet
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
@@ -49,7 +55,10 @@ class BilletController extends Controller
         try {
             $billets = $this->billetService->myGeneratedBillets();
 
-            return $billets;
+            return response()->json([
+                'code' => 200,
+                'data' => $billets
+            ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
@@ -64,7 +73,28 @@ class BilletController extends Controller
         try {
             $billets = $this->billetService->myBilletsToPay();
 
-            return $billets;
+            return response()->json([
+                'code' => 200,
+                'data' => $billets
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ], $e->getCode());
+        }
+    }
+
+    public function payment(Request $request)
+    {
+        try {
+            $billet = $this->billetService->payment($request->all());
+
+            return response()->json([
+                'code' => 200,
+                'data' => $billet
+            ], 200);
+
         } catch (\Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),

@@ -24,8 +24,8 @@ class TransferPixRequest extends FormRequest
     public function rules()
     {
         return [
-            "pix_key" => "required",
-            "amount" => "required|numeric",
+            "pix_key"       => "required",
+            "amount"        => "required|numeric",
             "type_transfer" => "required|in:PIX"
         ];
     }
@@ -33,11 +33,11 @@ class TransferPixRequest extends FormRequest
     public function messages()
     {
         return [
-            "pix_key.required" => "validation.pix_key.required",
-            "amount.required" => "validation.amount.required",
-            "amount.numeric" => "validation.amount.numeric",
+            "pix_key.required"       => "validation.pix_key.required",
+            "amount.required"        => "validation.amount.required",
+            "amount.numeric"         => "validation.amount.numeric",
             "type_transfer.required" => "validation.type_transfer.required",
-            "type_transfer.in" => "validation.type_transfer.in"
+            "type_transfer.in"       => "validation.type_transfer.in"
         ];
     }
 }

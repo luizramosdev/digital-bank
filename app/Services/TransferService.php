@@ -31,8 +31,8 @@ class TransferService
     {
         $from_account = $this->accountService->getAccountByAuth();
 
-        $activeFromAccount = $this->accountService->checkActiveAccounts($from_account);
-        if(!$activeFromAccount) throw new \Exception('from account must be active', 404);
+        $this->accountService->checkActiveAccounts($from_account);
+        // if(!$activeFromAccount) throw new \Exception('from account must be active', 404);
 
         switch($requestData['type_transfer'])
         {
@@ -52,8 +52,7 @@ class TransferService
         $to_account = $this->accountService->getByAccountNumber($requestData['to_account']);
         if(!$to_account) throw new \Exception('to account not found', 404);
 
-        $activeToAccount = $this->accountService->checkActiveAccounts($to_account);
-        if(!$activeToAccount) throw new \Exception('to account must be active', 404);
+        $this->accountService->checkActiveAccounts($to_account);
 
         if($from_account->account_number === $to_account->number) throw new \Exception('cannot transfer to yourself', 404);
 
@@ -61,8 +60,8 @@ class TransferService
         $amount = $requestData['amount'];
         $total = $amount + $fee;
 
-        $enoughBalance = $this->accountService->checkBalance($from_account->balance, $total);
-        if($enoughBalance) throw new \Exception('insufficient funds', 404);
+        $this->accountService->checkBalance($from_account->balance, $total);
+        // if($enoughBalance) throw new \Exception('insufficient funds', 404);
 
         $data = [
             'uuid' => Str::uuid(10),
@@ -75,11 +74,9 @@ class TransferService
 
         $transfer = $this->create($data);
 
-        $from_account->balance -= $total;
-        $from_account->save();
+        $this->accountService->balanceExit($from_account, $total);
 
-        $to_account->balance += $amount;
-        $to_account->save();
+        $this->accountService->addBalance($to_account, $amount);
 
         return $transfer;
     }
@@ -94,11 +91,10 @@ class TransferService
 
         $to_account = $keyReceiver->account;
 
-        $activeToAccount = $this->accountService->checkActiveAccounts($to_account);
-        if(!$activeToAccount) throw new \Exception('to account must be active', 404);
+        $this->accountService->checkActiveAccounts($to_account);
 
-        $enoughBalance = $this->accountService->checkBalance($from_account->balance, $requestData['amount']);
-        if($enoughBalance) throw new \Exception('insufficient funds', 404);
+        $this->accountService->checkBalance($from_account->balance, $requestData['amount']);
+        // if($enoughBalance) throw new \Exception('insufficient funds', 404);
 
         $data = [
             'uuid' => Str::uuid(10),
@@ -110,11 +106,9 @@ class TransferService
 
         $transfer = $this->create($data);
 
-        $from_account->balance -= $requestData['amount'];
-        $from_account->save();
+        $this->accountService->balanceExit($from_account, $requestData['amount']);
 
-        $to_account->balance += $requestData['amount'];
-        $to_account->save();
+        $this->accountService->addBalance($to_account, $requestData['amount']);
 
         return $transfer;
     }

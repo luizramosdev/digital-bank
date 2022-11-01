@@ -33,4 +33,37 @@ class AccountRepository
 
         return $account;
     }
+
+    public function inactivate(Account $account, string $status)
+    {
+        $account->status = $status;
+        $account->save();
+
+        return $account;
+    }
+
+    public function activate(Account $account, string $status)
+    {
+
+        $account->status = $status;
+        $account->save();
+
+        return $account;
+    }
+
+    public function addBalance(Account $account, $amount)
+    {
+        $account->balance += $amount;
+        $account->save();
+
+        return $account;
+    }
+
+    public function balanceExit(Account $account, $amount)
+    {
+        $account->balance -= $amount;
+        $account->save();
+
+        return $account;
+    }
 }

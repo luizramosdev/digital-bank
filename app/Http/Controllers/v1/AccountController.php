@@ -22,7 +22,10 @@ class AccountController extends Controller
 
             if(!$account) throw new \Exception('account not found', 404);
 
-            return $account;
+            return response()->json([
+                'code' => 200,
+                'data' => $account
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
@@ -38,8 +41,45 @@ class AccountController extends Controller
 
             if(!$account) throw new \Exception('account not found', 404);
 
-            return $account;
+            return response()->json([
+                'code' => 200,
+                'data' => $account
+            ], 200);
         } catch (\Exception $e) {
+            return response()->json([
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ], $e->getCode());
+        }
+    }
+
+    public function inactivate()
+    {
+        try {
+            $account = $this->accountService->inactivate();
+
+            return response()->json([
+                'code' => 200,
+                'data' => $account
+            ], 200);
+        } catch(\Exception $e) {
+            return response()->json([
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ], $e->getCode());
+        }
+    }
+
+    public function activate()
+    {
+        try {
+            $account = $this->accountService->activate();
+
+            return response()->json([
+                'code' => 200,
+                'data' => $account
+            ], 200);
+        } catch(\Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
                 'message' => $e->getMessage()

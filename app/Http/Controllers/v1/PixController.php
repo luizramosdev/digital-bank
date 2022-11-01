@@ -21,7 +21,10 @@ class PixController extends Controller
         try {
             $pix = $this->pixService->create($request->all());
 
-            return $pix;
+            return response()->json([
+                'code' => 200,
+                'data' => $pix
+            ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
@@ -38,7 +41,10 @@ class PixController extends Controller
 
             if(!$pix) throw new \Exception('pix not found', 404);
 
-            return $pix;
+            return response()->json([
+                'code' => 200,
+                'data' => $pix
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),

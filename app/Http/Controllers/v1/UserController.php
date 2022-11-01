@@ -20,7 +20,10 @@ class UserController extends Controller
     {
         $users = $this->userService->getAll();
 
-        return response()->json([$users]);
+        return response()->json([
+            'code' => 200,
+            'data' => $users
+        ], 200);
     }
 
     public function store(StoreAccountRequest $request)
@@ -30,7 +33,8 @@ class UserController extends Controller
 
             return response()->json([
                 'code' => 200,
-                'message' => 'sucessfully created'
+                'message' => 'sucessfully created',
+                'data' => $user
             ], 200);
 
         } catch (\Exception $e) {
@@ -48,7 +52,10 @@ class UserController extends Controller
 
             if(!$user) throw new \Exception('user not found', 404);
 
-            return $user;
+            return response()->json([
+                'code' => 200,
+                'data' => $user
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),
@@ -64,7 +71,10 @@ class UserController extends Controller
 
             if(!$user) throw new \Exception('user not found', 404);
 
-            return $user;
+            return response()->json([
+                'code' => 200,
+                'data' => $user
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),

@@ -40,4 +40,12 @@ class BilletRepository
 
         return $billet;
     }
+
+    public function changeStatusBillet($billet, $status)
+    {
+        $billet->payment_status = $status;
+        $billet->save();
+
+        return $billet;
+    }
 }

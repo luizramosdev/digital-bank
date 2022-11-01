@@ -24,11 +24,13 @@ Route::group(['prefix' => 'v1'], function() {
         Route::group(['prefix' => 'account'], function () {
             Route::get('/auth', [AccountController::class, 'accountAuth']);
             Route::get('/{account_id}', [AccountController::class, 'show']);
+            Route::patch('/inactivate', [AccountController::class, 'inactivate']);
+            Route::patch('/activate', [AccountController::class, 'activate']);
         });
 
         Route::group(['prefix' => 'transfer'], function () {
-            Route::post('/ted', [TransferController::class, 'transferTed']);
-            Route::post('/pix', [TransferController::class, 'transferPix']);
+            Route::post('/', [TransferController::class, 'transfer']);
+            // Route::post('/pix', [TransferController::class, 'transferPix']);
         });
 
         Route::group(['prefix' => 'pix'], function () {
@@ -41,6 +43,7 @@ Route::group(['prefix' => 'v1'], function() {
             Route::get('/{bar_code}', [BilletController::class,'show']);
             Route::get('/my-billets', [BilletController::class, 'myGeneratedBillets']);
             Route::get('/my-billets-pay', [BilletController::class, 'myBilletsToPay']);
+            Route::post('/payment', [BilletController::class, 'payment']);
         });
     });
 });

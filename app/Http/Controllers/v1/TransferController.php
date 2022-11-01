@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\v1;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\TransferService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TransferRequest;
 use App\Http\Requests\TransferPixRequest;
 use App\Http\Requests\TransferTedRequest;
-use Carbon\Carbon;
 
 class TransferController extends Controller
 {
@@ -18,14 +19,20 @@ class TransferController extends Controller
         $this->transferService = $transferService;
     }
 
-    public function transferTed(TransferTedRequest $request)
+    public function transfer(TransferRequest $request)
     {
         try {
+
+            if(empty($request['pix_key']) && empty($request['to_account'])) throw new \Exception('necessary to inform pix key or to account', 404);
+
             $transfer = $this->transferService->transfer($request->all());
 
             if(!$transfer) throw new \Exception('failed to create transfer', 400);
 
-            return $transfer;
+            return response()->json([
+                'code' => 200,
+                'data' => $transfer
+            ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
@@ -37,20 +44,20 @@ class TransferController extends Controller
         return $transfer;
     }
 
-    public function transferPix(TransferPixRequest $request)
-    {
-        try {
-            $transfer = $this->transferService->transfer($request->all());
+    // public function transferPix(TransferPixRequest $request)
+    // {
+    //     try {
+    //         $transfer = $this->transferService->transfer($request->all());
 
-            if(!$transfer) throw new \Exception('failed to create transfer', 400);
+    //         if(!$transfer) throw new \Exception('failed to create transfer', 400);
 
-            return $transfer;
+    //         return $transfer;
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'code' => $e->getCode(),
-                'message' => $e->getMessage()
-            ], $e->getCode());
-        }
-    }
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'code' => $e->getCode(),
+    //             'message' => $e->getMessage()
+    //         ], $e->getCode());
+    //     }
+    // }
 }

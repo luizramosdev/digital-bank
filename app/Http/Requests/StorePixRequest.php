@@ -25,7 +25,7 @@ class StorePixRequest extends FormRequest
     {
         return [
             "type_key" => "required|in:CPF,CNPJ,EMAIL,MOBILE",
-            "pix_key" => "required"
+            "pix_key"  => "required"
         ];
     }
 
@@ -33,8 +33,8 @@ class StorePixRequest extends FormRequest
     {
         return [
             "type_key.required" => "validation.type_key_required",
-            "type_key.in" => "validation.type_key.in",
-            "pix_key.required" => "validation.pix_key.required"
+            "type_key.in"       => "validation.type_key.in",
+            "pix_key.required"  => "validation.pix_key.required"
         ];
     }
 }
