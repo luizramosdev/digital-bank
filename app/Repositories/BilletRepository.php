@@ -48,4 +48,11 @@ class BilletRepository
 
         return $billet;
     }
+
+    public function update(Billet $billet, array $requestData)
+    {
+        $billet = $billet->update($requestData);
+
+        return $billet;
+    }
 }

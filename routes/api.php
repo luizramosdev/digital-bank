@@ -44,6 +44,8 @@ Route::group(['prefix' => 'v1'], function() {
             Route::get('/my-billets', [BilletController::class, 'myGeneratedBillets']);
             Route::get('/my-billets-pay', [BilletController::class, 'myBilletsToPay']);
             Route::post('/payment', [BilletController::class, 'payment']);
+            Route::patch('/update/{bar_code}', [BilletController::class, 'update']);
+            Route::patch('/cancellation/{bar_code}', [BilletController::class, 'cancellation']);
         });
     });
 });

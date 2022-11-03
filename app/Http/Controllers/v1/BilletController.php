@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Http\Controllers\Controller;
-use App\Services\BilletService;
 use Illuminate\Http\Request;
+use App\Services\BilletService;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\BilletPaymentRequest;
+use App\Http\Requests\BilletUpdateRequest;
 
 class BilletController extends Controller
 {
@@ -85,7 +87,7 @@ class BilletController extends Controller
         }
     }
 
-    public function payment(Request $request)
+    public function payment(BilletPaymentRequest $request)
     {
         try {
             $billet = $this->billetService->payment($request->all());
@@ -95,6 +97,42 @@ class BilletController extends Controller
                 'data' => $billet
             ], 200);
 
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ], $e->getCode());
+        }
+    }
+
+    public function update(string $bar_code, BilletUpdateRequest $request)
+    {
+        try {
+            $billet = $this->billetService->update($bar_code, $request->all());
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'successfully updated',
+                'data' => $billet
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' =>  $e->getCode(),
+                'message' => $e->getMessage()
+            ], $e->getCode());
+        }
+    }
+
+    public function cancellation(string $bar_code)
+    {
+        try {
+            $billet = $this->billetService->cancellation($bar_code);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'successfully canceled',
+                'data' => $billet
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'code' => $e->getCode(),

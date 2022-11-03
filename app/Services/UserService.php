@@ -40,8 +40,8 @@ class UserService
         $requestData['accounts']['uuid'] = Str::uuid(10);
         $requestData['accounts']['agency_id'] = 1;
         $requestData['accounts']['user_id'] = $user->id;
-        $requestData['accounts']['account_number'] = rand(9, 99999);
-                        
+        $requestData['accounts']['account_number'] = random_int(10000, 99999);
+
         $account = $this->accountService->create($requestData['accounts']);
 
         return $user;
